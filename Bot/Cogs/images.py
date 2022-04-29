@@ -1,39 +1,38 @@
-import requests  
 import bs4
 import random
 from discord.ext import commands
+import discord
+from discord.commands import slash_command, Option
+import aiohttp
+import uvloop
+import orjson
+import asyncio
 
-#get link and prepare for scraping
-def image_scrape(link):
-    htmldata = requests.get(link).text  
-    soup = bs4.BeautifulSoup(htmldata, 'html.parser')
-    #find all imgs
-    links = []
-    for item in soup.find_all('img'):
-        #if src is the link
-        if not 'avatar' in item['src'] and not 'hover' in item['src'] and not 'logo' in item['src'] and not 'icon' in item['src'] and not 'data' in item['src']:
-            if '//' in item['src']:
-                links.append(item['src'])
-            else:
-                #takes domain name and adds back src to complete link
-                links.append('https://'+ link.split('/')[2] + item['src'])
-        #print all links
-    return(random.choice(links))
-
-class deviantart_images(commands.Cog):
-    
+class ImageScraperV2(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command(
-        name="image",
-        help="searches for an image on deviantart images"
-    )
-    async def image(self, ctx, *, search: str):
-        search = search.replace(' ', '%20')
-        link = f'https://www.deviantart.com/search?q={search}'
-        image_link = image_scrape(link)
-        await ctx.send(image_link)
+        
+    @slash_command(name="image", description="Scrapes some images off of DeviantArt", guild_ids=[866199405090308116])
+    async def imageScraperV2(self, ctx, *, search: Option(str, "The search query to perform")):
+        search = search.replace(" ", "%20")
+        async with aiohttp.ClientSession(json_serialize=orjson.dumps) as session:
+            params = {"q": search}
+            async with session.get("https://www.deviantart.com/search", params=params) as r:
+                data = await r.text()
+                soup = bs4.BeautifulSoup(data, "lxml")
+                links = []
+                link = f"https://www.deviantart.com/search?&q={search}"
+                for item in soup.find_all('img'):
+                    if not 'avatar' in item['src'] and not 'hover' in item['src'] and not 'logo' in item['src'] and not 'icon' in item['src'] and not 'data' in item['src']:
+                        if '//' in item['src']:
+                            links.append(item['src'])
+                        else:
+                            links.append('https://'+ link.split('/')[2] + item['src'])
+                embedVar = discord.Embed()
+                embedVar.set_image(url=random.choice(links))
+                await ctx.respond(embed=embedVar)
+    
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     
 def setup(bot):
-    bot.add_cog(deviantart_images(bot))
+    bot.add_cog(ImageScraperV2(bot))

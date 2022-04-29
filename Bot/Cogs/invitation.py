@@ -1,17 +1,19 @@
 from discord.ext import commands
 import discord
-class Utility(commands.Cog):
+from discord.commands import slash_command
+class invite(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
         
     @commands.command(
         name='invite',
-        help='Generates the link to invite bot',
-        pass_context=True
         )
+    @slash_command(name="invite", description="Provides the invite links for Miku", guild_ids=[866199405090308116])
     async def invite(self, ctx):
-        await ctx.send(f'https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8')
+        embed = discord.Embed()
+        embed.description = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8"
+        await ctx.respond(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(invite(bot))
