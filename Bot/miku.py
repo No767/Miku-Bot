@@ -12,7 +12,8 @@ bot = commands.Bot()
 # Loads in all extensions
 initial_extensions = [
     "Cogs.images",
-    "Cogs.translate"
+    "Cogs.translate",
+    "Cogs.chat"
 ]
 for extension in initial_extensions:
     bot.load_extension(extension)
