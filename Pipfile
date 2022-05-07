@@ -19,6 +19,8 @@ cchardet = "*"
 beautifulsoup4 = "*"
 py-cord = {version = "==2.0.0b7", extras = ["voice"]}
 pysimdjson = "*"
+deep-translator = "*"
+gpytranslate = "*"
 
 [dev-packages]
 black = "*"

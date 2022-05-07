@@ -1,34 +1,20 @@
 from discord.ext import commands
+from discord.commands import slash_command, Option
 import discord
-from deep_translator import GoogleTranslator
-#made with https://github.com/nidhaloff/deep-translator
-class Utility(commands.Cog):
+from gpytranslate import Translator
+
+class TranslateV1(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command(
-        name='translate',
-        help='Translates the given message',
-        pass_context=True
-        )
-    async def translate(self, ctx):
-        def check(ms):
-            return ms.channel == ctx.message.channel and ms.author == ctx.message.author
-        await ctx.send('Enter the message you wish to be translated:')
-        msg = await self.bot.wait_for('message', check=check)
-        await ctx.send("Enter which language you wish to have this translated in:")
-        lang = await self.bot.wait_for("message", check=check)
-        translated = GoogleTranslator(source='auto', target=str(lang.content)).translate(str(msg.content))
-        translate_embed = discord.Embed(
-            title='Translation',
-            description=translated
-        )
-        translate_embed.set_author(
-            name=ctx.message.author.name,
-            icon_url=ctx.message.author.avatar_url
-        )
-        await ctx.send(embed=translate_embed)
+    @slash_command(name="translate", description="Uses Google Translate to translate the given message", guild_ids=[866199405090308116])
+    async def translateMessages(self, ctx, *, message: Option(str, "The message to translate"), lang: Option(str, "The language to translate to")):
+        trans = Translator()
+        translatedMessage = await trans.translate(f"{message}", targetlang=f"{lang}")
+        embed = discord.Embed()
+        embed.description = translatedMessage.text
+        await ctx.respond(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(TranslateV1(bot))

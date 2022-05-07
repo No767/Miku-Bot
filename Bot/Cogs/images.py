@@ -14,7 +14,6 @@ class ImageScraperV2(commands.Cog):
         
     @slash_command(name="image", description="Scrapes some images off of DeviantArt", guild_ids=[866199405090308116])
     async def imageScraperV2(self, ctx, *, search: Option(str, "The search query to perform")):
-        search = search.replace(" ", "%20")
         async with aiohttp.ClientSession(json_serialize=orjson.dumps) as session:
             params = {"q": search}
             async with session.get("https://www.deviantart.com/search", params=params) as r:
@@ -31,6 +30,10 @@ class ImageScraperV2(commands.Cog):
                 embedVar = discord.Embed()
                 embedVar.set_image(url=random.choice(links))
                 await ctx.respond(embed=embedVar)
+                # except Exception:
+                #     embed = discord.Embed()
+                #     embed.description = "Sorry, but it seems like there was no results for that... Please try agian"
+                #     await ctx.respond(embed=embed)
     
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
     
