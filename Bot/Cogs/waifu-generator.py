@@ -16,9 +16,8 @@ class waifu(commands.Cog):
     @slash_command(
         name="waifu",
         description="Gives you a random waifu",
-        guild_ids=[866199405090308116]
     )
-    async def on_message(self, ctx):
+    async def waifuGen(self, ctx):
         async with aiohttp.ClientSession(json_serialize=orjson.dumps) as session:
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"

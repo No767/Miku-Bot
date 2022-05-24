@@ -8,7 +8,7 @@ class TranslateV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @slash_command(name="translate", description="Uses Google Translate to translate the given message", guild_ids=[866199405090308116])
+    @slash_command(name="translate", description="Uses Google Translate to translate the given message", guild_ids=[978546162745348116])
     async def translateMessages(self, ctx, *, message: Option(str, "The message to translate"), lang: Option(str, "The language to translate to")):
         trans = Translator()
         translatedMessage = await trans.translate(f"{message}", targetlang=f"{lang}")

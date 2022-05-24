@@ -11,7 +11,7 @@ class qrcode_maker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name="qrcode", description="Makes a QR code", guild_ids=[866199405090308116])
+    @slash_command(name="qrcode", description="Makes a QR code")
     async def code(self, ctx, *, link: Option(str, "The link that you want the qr code to have, or any text you wish")):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         if str(os.path.isfile("/qrcode/qrcode.png")) == "False":
