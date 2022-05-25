@@ -17,6 +17,7 @@ initial_extensions = [
     "Cogs.invitation",
     "Cogs.reddit",
     "Cogs.waifu-generator",
+    "Cogs.disquest"
 ]
 for extension in initial_extensions:
     bot.load_extension(extension)
