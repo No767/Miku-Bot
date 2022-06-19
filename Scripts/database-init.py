@@ -3,7 +3,7 @@ import os
 
 import uvloop
 from dotenv import load_dotenv
-from sqlalchemy import (BigInteger, Column, Integer, MetaData, Table)
+from sqlalchemy import BigInteger, Column, Integer, MetaData, Table
 from sqlalchemy.ext.asyncio import create_async_engine
 
 load_dotenv()
@@ -29,6 +29,7 @@ async def main():
     )
     async with engine.begin() as conn:
         await conn.run_sync(meta.create_all)
-        
+
+
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 asyncio.run(main())
