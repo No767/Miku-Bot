@@ -4,7 +4,7 @@ import discord
 import uvloop
 from discord.commands import Option, SlashCommandGroup
 from discord.ext import commands, pages
-from exceptions import NoItemsError
+from rin_exceptions import NoItemsError
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 
