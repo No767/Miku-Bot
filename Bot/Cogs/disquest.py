@@ -5,7 +5,7 @@ import logging
 
 import discord
 import uvloop
-from discord.commands import slash_command
+from discord.commands import SlashCommandGroup
 from discord.ext import commands
 from dotenv import load_dotenv
 from sqlalchemy import (BigInteger, Column, Integer, MetaData, Table,
@@ -23,8 +23,8 @@ PORT = os.getenv("Postgres_Port")
 user = DisQuestUsers()
 
 logging.basicConfig(
-        level=logging.ERROR,
-        format="[%(levelname)s] | %(asctime)s >> %(message)s",  datefmt='[%m/%d/%Y] [%I:%M:%S %p %z]'
+        level=logging.WARN,
+        format="[%(levelname)s] | %(asctime)s >> %(message)s",  datefmt='[%m/%d/%Y] [%I:%M:%S %p %Z]'
     )
 
 class View(discord.ui.View):
@@ -53,15 +53,16 @@ class View(discord.ui.View):
     async def second_button_callback(self, button, interaction):
         await interaction.response.send_message("Welp, you choose not to ig...")
         
-class DisQuest(commands.Cog):
+class DisQuestV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    @slash_command(
-        name="mylvl",
-        description="Displays your activity level!",
-    )
+        
+    disquest = SlashCommandGroup("disquest", "Commands for DisQuest", guild_ids=[978546162745348116])
+    disquestRank = disquest.create_subgroup("rank", "Commands for checking current user ranks", guild_ids=[978546162745348116])
+    
+    @disquest.command(name="mylvl")
     async def mylvl(self, ctx):
+        """Checks how much levels you have within DisQuest"""
         try:
             xp = await user.getxp(ctx.user.id, ctx.guild.id)
             embedVar = discord.Embed(color=discord.Color.from_rgb(255, 217, 254))
@@ -77,17 +78,10 @@ class DisQuest(commands.Cog):
             await ctx.respond(embed=embedError)
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
-
-class DisQuestV2(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @slash_command(
-        name="rank",
-        description="Displays the most active members of your server!",
-    )
+    
+    @disquestRank.command(name="server")
     async def rank(self, ctx):
+        """Displays the most active members of your server"""
         gid = ctx.guild.id
         meta = MetaData()
         engine = create_async_engine(
@@ -118,17 +112,10 @@ class DisQuestV2(commands.Cog):
             await ctx.respond(embed=embedVar)
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
-
-class DisQuestV3(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    @slash_command(
-        name="globalrank",
-        description="Displays the most active members of all servers that this bot is connected to!",
-    )
+    
+    @disquestRank.command(name="global")
     async def grank(self, ctx):
+        """Displays the most active members of all servers that this bot is connected to"""
         meta = MetaData()
         engine = create_async_engine(
             f"postgresql+asyncpg://{USER}:{PASSWORD}@{IP}:{PORT}/{DATABASE}"
@@ -162,9 +149,16 @@ class DisQuestV3(commands.Cog):
             await ctx.respond(embed=embedVar)
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    
 
+    @disquest.command(name="init")
+    async def disquestInit(self, ctx):
+        """Creates a DisQuest account for you"""
+        embed = discord.Embed()
+        embed.description = "Do you wish to initialize your DisQuest account? This is completely optional. Click on the buttons to confirm"
+        await ctx.respond(embed=embed, view=View())
 
-class DisQuestV4(commands.Cog):
+class DisQuestListener(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -176,23 +170,10 @@ class DisQuestV4(commands.Cog):
         try:
             await user.addxp(reward, ctx.author.id, ctx.guild.id)
         except TypeError:
-            logging.error(f"[{ctx.author.name}#{ctx.author.discriminator} - {ctx.guild}] User has not initialized DisQuest account")
+            logging.warn(f"[{ctx.author.name}#{ctx.author.discriminator} - {ctx.guild}] User has not initialized DisQuest account")
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-class DisQuestV5(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        
-    @slash_command(name="disquest-init", description="Initializes the database for DisQuest!", guild_ids=[978546162745348116])
-    async def disquestInit(self, ctx):
-        embed = discord.Embed()
-        embed.description = "Do you wish to initialize your DisQuest account? This is completely optional. Click on the buttons to confirm"
-        await ctx.respond(embed=embed, view=View())
-
 def setup(bot):
-    bot.add_cog(DisQuest(bot))
-    bot.add_cog(DisQuestV2(bot))
-    bot.add_cog(DisQuestV3(bot))
-    bot.add_cog(DisQuestV4(bot))
-    bot.add_cog(DisQuestV5(bot))
+    bot.add_cog(DisQuestV1(bot))
+    bot.add_cog(DisQuestListener(bot))
