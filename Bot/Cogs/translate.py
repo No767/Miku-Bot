@@ -2,6 +2,8 @@ from discord.ext import commands
 from discord.commands import slash_command, Option
 import discord
 from gpytranslate import Translator
+import async_google_trans_new
+
 
 class TranslateV1(commands.Cog):
     
@@ -10,10 +12,9 @@ class TranslateV1(commands.Cog):
         
     @slash_command(name="translate", description="Uses Google Translate to translate the given message", guild_ids=[978546162745348116])
     async def translateMessages(self, ctx, *, message: Option(str, "The message to translate"), lang: Option(str, "The language to translate to")):
-        trans = Translator()
-        translatedMessage = await trans.translate(f"{message}", targetlang=f"{lang}")
+        g = async_google_trans_new.AsyncTranslator()
         embed = discord.Embed()
-        embed.description = translatedMessage.text
+        embed.description = await g.translate(f"{message}", f"{lang}")
         await ctx.respond(embed=embed)
 
 def setup(bot):

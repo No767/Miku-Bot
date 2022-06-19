@@ -2,3 +2,6 @@ Bot/.env
 *.env
 __pycache__
 database-init.py
+.vscode
+Bot/Cog-Testers
+Bot/Cog-Testers/*
