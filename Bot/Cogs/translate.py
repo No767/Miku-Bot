@@ -1,7 +1,6 @@
 from discord.ext import commands
 from discord.commands import slash_command, Option
 import discord
-from gpytranslate import Translator
 import async_google_trans_new
 
 
