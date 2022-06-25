@@ -1,6 +1,6 @@
 <div align=center>
 
-![Miku](./Assets/miku_smaller.jpg)
+![Miku](./miku_smaller.jpg)
 
 # Miku
 
