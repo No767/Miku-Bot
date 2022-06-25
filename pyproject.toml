@@ -8,23 +8,23 @@ license = "Apache-2.0"
 [tool.poetry.dependencies]
 python = "^3.10"
 py-cord = {version = "2.0.0rc1", extras = ["voice"]}
-python-dotenv = "^0.20.0"
-aiodns = "^3.0.0"
-Brotli = "^1.0.9"
-SQLAlchemy = "^1.4.36"
-orjson = "^3.6.8"
-lxml = "^4.8.0"
-asyncpraw = "^7.5.0"
-asyncpg = "^0.25.0"
-uvloop = "^0.16.0"
-qrcode = {extras = ["qil"], version = "^7.3.1"}
-cchardet = "^2.1.7"
-beautifulsoup4 = "^4.11.1"
-pysimdjson = "^4.0.3"
-disquest-utils = "^1.0.5"
-async-google-trans-new = "^1.4.5"
-gql = {extras = ["aiohttp"], version = "^3.3.0"}
-rin-exceptions = "^1.0.0"
+python-dotenv = "*"
+aiodns = "*"
+Brotli = "*"
+SQLAlchemy = "*"
+orjson = "*"
+lxml = "*"
+asyncpraw = "*"
+asyncpg = "*"
+uvloop = "*"
+qrcode = {extras = ["qil"], version = "*"}
+cchardet = "*"
+beautifulsoup4 = "*"
+pysimdjson = "*"
+disquest-utils = "*"
+async-google-trans-new = "*"
+gql = {extras = ["aiohttp"], version = "*"}
+rin-exceptions = "*"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.19.0"
