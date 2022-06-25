@@ -11,7 +11,9 @@ class qrcode_maker(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name="qrcode", description="Makes a QR code")
+    @slash_command(
+        name="qrcode", description="Makes a QR code", guild_ids=[978546162745348116]
+    )
     async def code(
         self,
         ctx,

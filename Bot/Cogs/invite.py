@@ -7,7 +7,11 @@ class invite(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @slash_command(name="invite", description="Provides the invite links for Miku")
+    @slash_command(
+        name="invite",
+        description="Provides the invite links for Miku",
+        guild_ids=[978546162745348116],
+    )
     async def invite(self, ctx):
         embed = discord.Embed()
         embed.description = f"https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8"

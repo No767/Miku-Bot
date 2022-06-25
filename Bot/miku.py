@@ -13,12 +13,14 @@ bot = bridge.Bot(command_prefix=".", intents=intents, help_command=None)
 
 # Loads in all extensions
 initial_extensions = [
-    "Cogs.translate",
-    "Cogs.invitation",
-    "Cogs.reddit",
-    "Cogs.waifu-generator",
-    "Cogs.disquest",
     "Cogs.anilist",
+    # "Cogs.disquest",
+    "Cogs.info",
+    "Cogs.invite",
+    "Cogs.qrcode-maker",
+    "Cogs.reddit",
+    # "Cogs.translate",
+    "Cogs.waifu-generator",
 ]
 for extension in initial_extensions:
     bot.load_extension(extension)
