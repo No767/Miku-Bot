@@ -8,6 +8,8 @@
 
 A Maintained Version of Miku from Isaac-To
 
+<div align=left>
+  
 # Info
 
 A great friend of mine, had built a Discord bot, which was Miku. Sadly Miku was taking down due to server limits, and thus the code was never really released. This is a maintained version of Miku, with improvements and fixes. Miku currently includes the DisQuest system, similar if not the same system used on the original Miku bot. And Miku contains some cogs from Rin, and is planned to contain Kumiko's Economy system. Miku for now, is currently under development, and is not yet ready for use. 
