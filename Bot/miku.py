@@ -20,7 +20,8 @@ initial_extensions = [
     "Cogs.qrcode-maker",
     "Cogs.reddit",
     # "Cogs.translate",
-    "Cogs.waifu-generator",
+    "Cogs.waifu",
+    # "Cogs.waifu-generator",
 ]
 for extension in initial_extensions:
     bot.load_extension(extension)
