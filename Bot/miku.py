@@ -21,7 +21,6 @@ initial_extensions = [
     "Cogs.reddit",
     # "Cogs.translate",
     "Cogs.waifu",
-    # "Cogs.waifu-generator",
 ]
 for extension in initial_extensions:
     bot.load_extension(extension)
