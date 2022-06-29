@@ -15,6 +15,7 @@ bot = bridge.Bot(command_prefix=".", intents=intents, help_command=None)
 initial_extensions = [
     "Cogs.anilist",
     # "Cogs.disquest",
+    "Cogs.help",
     "Cogs.info",
     "Cogs.invite",
     "Cogs.qrcode-maker",
