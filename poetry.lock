@@ -550,7 +550,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
 name = "rin-exceptions"
-version = "1.0.0"
+version = "1.0.1"
 description = "A set of base exceptions for Rin"
 category = "main"
 optional = false
