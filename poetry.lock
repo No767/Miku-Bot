@@ -393,7 +393,7 @@ python-versions = "*"
 
 [[package]]
 name = "orjson"
-version = "3.7.3"
+version = "3.7.7"
 description = "Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy"
 category = "main"
 optional = false
