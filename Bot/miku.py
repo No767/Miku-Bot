@@ -1,3 +1,4 @@
+import logging
 import os
 
 import discord
@@ -11,10 +12,17 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = bridge.Bot(command_prefix=".", intents=intents, help_command=None)
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(levelname)s] | %(asctime)s >> %(message)s",
+    datefmt="[%m/%d/%Y] [%I:%M:%S %p %Z]",
+)
+
 # Loads in all extensions
 initial_extensions = [
     "Cogs.anilist",
     # "Cogs.disquest",
+    "Cogs.events",
     "Cogs.help",
     "Cogs.info",
     "Cogs.invite",

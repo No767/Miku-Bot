@@ -4,3 +4,4 @@ __pycache__
 .vscode
 Bot/Cog-Testers
 Bot/Cog-Testers/*
+test-script.py
