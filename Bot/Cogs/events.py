@@ -30,8 +30,6 @@ class View(discord.ui.View):
             if len(itemUUIDAuth) == 0:
                 raise NoItemsError
             else:
-                for itemUUID in itemUUIDAuth:
-                    pass
                 await utils.deleteAllUserEvent(interaction.user.id)
                 await interaction.response.send_message(
                     "Confirmed. All events that belong to you are purged. This is permanent and irreversible."
