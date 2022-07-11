@@ -23,6 +23,7 @@ initial_extensions = [
     "Cogs.anilist",
     # "Cogs.disquest",
     "Cogs.events",
+    "Cogs.events_task",
     "Cogs.help",
     "Cogs.info",
     "Cogs.invite",
