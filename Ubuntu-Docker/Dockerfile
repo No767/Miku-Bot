@@ -1,5 +1,6 @@
 # Pulled from Rin. Modified to work with Miku
 FROM ubuntu:22.04 as install_python
+ENV DEBIAN_FRONTEND=noninteractive 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends make build-essential 
 RUN apt-get install libssl-dev zlib1g-dev libbz2-dev libreadline-dev  -y --no-install-recommends
@@ -34,12 +35,15 @@ RUN source $NVM_DIR/nvm.sh \
   && nvm use default
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-RUN npm install -g npm pm2@latest
+RUN npm install --location=global npm pm2@latest
 
 FROM install_node AS install_poetry
-RUN python -m pip install --upgrade pipx
-RUN python -m pipx ensurepath
-RUN python -m pipx install poetry
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+RUN python -m pip install --upgrade pip setuptools wheel
+RUN apt-get install netcat -y --no-install-recommends
+RUN curl -sSL https://install.python-poetry.org | python -
+ENV PATH="${PATH}:/root/.local/bin"
 
 FROM install_poetry AS prod_deployment
 WORKDIR /
@@ -51,11 +55,10 @@ COPY /Bot/.env /Miku/Bot
 RUN mkdir /Miku/Bot/Cogs
 COPY /Bot/Cogs/ /Miku/Bot/Cogs
 COPY /Bot/miku_events_utils/ /Miku/Bot/miku_events_utils
-RUN pip install --upgrade pip setuptools wheel 
 RUN cd /Miku/ && poetry env use 3.10 && poetry install
-EXPOSE 4001
+EXPOSE 4003
 ARG PM2_PUBLIC_KEY_INGEST
 ARG PM2_SECRET_KEY_INGEST
 ENV PM2_PUBLIC_KEY=${PM2_PUBLIC_KEY_INGEST}
 ENV PM2_SECRET_KEY=${PM2_SECRET_KEY_INGEST}
-CMD ["pm2-runtime", "cd /Miku/ && poetry install && poetry run python /Miku/Bot/miku.py", "--name", "Miku"]
+CMD ["pm2-runtime", "cd /Miku/ && poetry run python /Miku/Bot/miku.py", "--name", "Miku"]
