@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "Miku"
 version = "0.1.0"
-description = "A Continuation of Isaac-To's Miku Discord Bot"
+description = "A Multipurpose bot foucsed on simplicity, speed and efficiency."
 authors = ["No767 <73260931+No767@users.noreply.github.com>"]
 license = "Apache-2.0"
 

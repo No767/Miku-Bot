@@ -26,7 +26,7 @@ RUN apt-get update --no-install-recommends  \
   && apt-get install -y curl --no-install-recommends \
   && apt-get -y autoclean
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION lts
+ENV NODE_VERSION 16.16.0
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN source $NVM_DIR/nvm.sh \
   && nvm install $NODE_VERSION \
@@ -50,6 +50,7 @@ COPY /Bot/miku.py /Miku/Bot/
 COPY /Bot/.env /Miku/Bot
 RUN mkdir /Miku/Bot/Cogs
 COPY /Bot/Cogs/ /Miku/Bot/Cogs
+COPY /Bot/miku_events_utils/ /Miku/Bot/miku_events_utils
 RUN pip install --upgrade pip setuptools wheel 
 RUN cd /Miku/ && poetry env use 3.10 && poetry install
 EXPOSE 4001
