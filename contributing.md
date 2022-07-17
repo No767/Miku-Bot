@@ -295,10 +295,10 @@ First things first, you'll more than likely need a dev bot to run Miku. Luckily 
 Once you have the discord bot up, there's a few things that needs to be done before development can begin. 
 
 1. Follow the steps in [Installing Dependencies](#installing-dependencies) to get all of the dependencies installed.
-2. Now create a shell that pipenv needs. Run the following command:
+2. Now create a shell that Poetry needs. Run the following command:
 
     ```sh
-    pipenv shell
+    poetry shell
     ```
 
 3. To run Miku, run the following command:
@@ -361,12 +361,7 @@ Postgres_Database = "miku_disquest"
 Postgres_Port = "5432"
 ```
 
-Now run `database-init.py` located within the `Scripts` folder. This will create the table within the database that will store all of the data. 
-
-
-## Pull Requests and Commits
-
-You have 2 option: Fork the repo and make a pull request back into the main one, or commit to the branch directly. Option 2 is preferred. **If it's not for any fixes including any hotfixes, please submit it to the dev branch, not the master branch**
+Now run `database-init.py` and `events-init.py` located within the `Scripts` folder. This will create the table within the database that will store all of the data. 
 
 ## Formatting
 
@@ -377,6 +372,8 @@ poetry run pre-commit install
 ```
 Once this is finished, you should be ready to commit and push.
 
+If you get stuck in a loop where it won't commit, let it format around 2-3 times, and then add the `--no-verify` flag to prevent it from verifying and running the hooks for that commit.
+
 ## Issue and Feature Requests Reports
 
 If there is an issue or a feature you want to be added, use the built-in GitHub issue tracker. Though a system like Jira could be used, it would be more efficient to just use the issue tracker that GitHub provides. 
@@ -385,17 +382,17 @@ If there is an issue or a feature you want to be added, use the built-in GitHub 
 - If submitting a feature request, follow the template as well. As with issue reports, duplicate requests will not receive support
 
 # Releasing Tags
-In order to automate the release system, you have to make sure that in order to use it, the git commit message must be done correctly. Only use this if there is a new update that is ready to be released. These are pretty similar to [Angular's Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines). Here's a table that should help with explaining this:
+In order to automate the release system, you have to make sure that in order to use it, the git commit message must be done correctly. Only use this if there is a new update that is ready to be released. This project follows the [SemVer](https://semver.org/) style of versioning. Here's a table that should help with explaining this:
 
 | Type of Release, Update, or Patch | Example |
 |              :--:                 | :--:    | 
-| Major Release                     | `Release: v2.5` | 
-| Minor Release                     | `Update: v2.5.1`|
-| Patch Release                     | `Fix: Instagram API Cog removal` |
+| Major Release                     | `Release: v2` | 
+| Minor Release                     | `Update: v2.5.0`|
+| Patch Release                     | `Fix: v2.5.1` |
 
 
 ## Git Commit StyleGuides
 
 - If updating any other files that aren't project files or not important (stuff like README.md, contributing.md, etc), add the [skip ci] label in the front
 - With each new commit, the message should be more or less describing the changes. Please don't write useless commit messages...
-- If releasing tags, have it in this style. `Release: [insert what changed here]`, `Update: [insert what changed here]`, and `Fix: [insert what changed here]`. Release is a major release. This means it bumps from 1.0 to 2.0. Minor means it bumps up the version from 1.4 to 1.4.1 for example. And fix just applies a patch, which would be 1.4.1 to 1.4.1.1.
+- If releasing tags, have it in this style. `Release: version number`, `Update: version number`, and `Fix: version number`. Release is a major release. This means it bumps from 1.0 to 2.0. Minor means it bumps up the version from 1.3 to 1.4 for example. And fix just applies a patch, which would be 1.4.1 to 1.4.2.
