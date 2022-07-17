@@ -76,21 +76,24 @@ class UserEvents(commands.Cog):
         time: Option(str, "The time of the event (eg 1:53 pm). Also supports seconds"),
     ):
         """Creates a new event"""
-        dateOfToday = datetime.now().isoformat()
-        user_id = ctx.author.id
-        eventPassedInit = False
-        eventUUID = uuid.uuid4().hex[:16]
-        fullEventDateTimeInput = parser.parse(f"{date} {time}").isoformat()
-        await utils.insertNewEvent(
-            event_uuid=eventUUID,
-            user_id=user_id,
-            date_added=dateOfToday,
-            name=name,
-            description=description,
-            event_date=fullEventDateTimeInput,
-            event_passed=eventPassedInit,
-        )
-        await ctx.respond("Event created!")
+        try:
+            dateOfToday = datetime.now().isoformat()
+            user_id = ctx.author.id
+            eventPassedInit = False
+            eventUUID = uuid.uuid4()
+            fullEventDateTimeInput = parser.parse(f"{date} {time}").isoformat()
+            await utils.insertNewEvent(
+                event_uuid=eventUUID,
+                user_id=user_id,
+                date_added=dateOfToday,
+                name=name,
+                description=description,
+                event_date=fullEventDateTimeInput,
+                event_passed=eventPassedInit,
+            )
+            await ctx.respond("Event created!")
+        except Exception:
+            await ctx.respond("Oops, something went wrong... Please try again")
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
@@ -106,26 +109,26 @@ class UserEvents(commands.Cog):
                 mainPages = pages.Paginator(
                     pages=[
                         discord.Embed(
-                            title=items.__dict__["name"],
-                            description=items.__dict__["description"],
+                            title=dict(items)["name"],
+                            description=dict(items)["description"],
                         )
                         .add_field(
                             name="Date Added",
-                            value=parser.isoparse(
-                                items.__dict__["date_added"]
-                            ).strftime("%Y-%m-%d %H:%M:%S %Z"),
+                            value=parser.isoparse(dict(items)["date_added"]).strftime(
+                                "%Y-%m-%d %H:%M:%S %Z"
+                            ),
                             inline=True,
                         )
                         .add_field(
                             name="Event Date",
-                            value=parser.isoparse(
-                                items.__dict__["event_date"]
-                            ).strftime("%Y-%m-%d %H:%M:%S %Z"),
+                            value=parser.isoparse(dict(items)["event_date"]).strftime(
+                                "%Y-%m-%d %H:%M:%S %Z"
+                            ),
                             inline=True,
                         )
                         .add_field(
                             name="Passed?",
-                            value=items.__dict__["event_passed"],
+                            value=dict(items)["event_passed"],
                             inline=True,
                         )
                         for items in userEvents
@@ -154,26 +157,26 @@ class UserEvents(commands.Cog):
                 mainPages = pages.Paginator(
                     pages=[
                         discord.Embed(
-                            title=mainItems.__dict__["name"],
-                            description=mainItems.__dict__["description"],
+                            title=dict(mainItems)["name"],
+                            description=dict(mainItems)["description"],
                         )
                         .add_field(
                             name="Date Added",
                             value=parser.isoparse(
-                                mainItems.__dict__["date_added"]
+                                dict(mainItems)["date_added"]
                             ).strftime("%Y-%m-%d %H:%M:%S %Z"),
                             inline=True,
                         )
                         .add_field(
                             name="Event Date",
                             value=parser.isoparse(
-                                mainItems.__dict__["event_date"]
+                                dict(mainItems)["event_date"]
                             ).strftime("%Y-%m-%d %H:%M:%S %Z"),
                             inline=True,
                         )
                         .add_field(
                             name="Passed?",
-                            value=mainItems.__dict__["event_passed"],
+                            value=dict(mainItems)["event_passed"],
                             inline=True,
                         )
                         for mainItems in userEventsPassed
@@ -202,26 +205,26 @@ class UserEvents(commands.Cog):
                 mainPages = pages.Paginator(
                     pages=[
                         discord.Embed(
-                            title=mainItems2.__dict__["name"],
-                            description=mainItems2.__dict__["description"],
+                            title=dict(mainItems2)["name"],
+                            description=dict(mainItems2)["description"],
                         )
                         .add_field(
                             name="Date Added",
                             value=parser.isoparse(
-                                mainItems2.__dict__["date_added"]
+                                dict(mainItems2)["date_added"]
                             ).strftime("%Y-%m-%d %H:%M:%S %Z"),
                             inline=True,
                         )
                         .add_field(
                             name="Event Date",
                             value=parser.isoparse(
-                                mainItems2.__dict__["event_date"]
+                                dict(mainItems2)["event_date"]
                             ).strftime("%Y-%m-%d %H:%M:%S %Z"),
                             inline=True,
                         )
                         .add_field(
                             name="Passed?",
-                            value=mainItems2.__dict__["event_passed"],
+                            value=dict(mainItems2)["event_passed"],
                             inline=True,
                         )
                         for mainItems2 in userEventsPassed
@@ -265,6 +268,72 @@ class UserEvents(commands.Cog):
         embed = discord.Embed()
         embed.description = "Are you sure you want to delete all of your events? This is permanent and cannot be undone."
         await ctx.respond(embed=embed, view=View())
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    @eventsView.command(name="countdown")
+    async def eventCountdown(
+        self, ctx, *, name: Option(str, "The name of the event to search for")
+    ):
+        """Checks how much days until an event will happen and pass"""
+        mainRes = await utils.obtainEventsName(ctx.author.id, name)
+        try:
+            if len(mainRes) == 0:
+                raise NoItemsError
+            else:
+                embed = discord.Embed()
+                for items in mainRes:
+                    mainItem = dict(items)
+                    parsedDate = parser.isoparse(mainItem["event_date"])
+                    timeDiff = parsedDate - datetime.now()
+                    countHours, rem = divmod(timeDiff.seconds, 3600)
+                    countMinutes, countSeconds = divmod(rem, 60)
+                    embed.description = f"{name} will happen in {timeDiff.days} day(s), {countHours} hour(s), {countMinutes} minute(s), and {countSeconds} second(s)"
+                    embed.add_field(
+                        name="Event Date (24hr)",
+                        value=parsedDate.strftime("%Y-%m-%d %H:%M:%S"),
+                        inline=True,
+                    )
+                    embed.add_field(
+                        name="Today's Date (24hr)",
+                        value=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        inline=True,
+                    )
+                    await ctx.respond(embed=embed)
+        except NoItemsError:
+            embedError = discord.Embed()
+            embedError.description = (
+                f"Sadly there are no events with the name of {name}. Please try again."
+            )
+            await ctx.respond(embed=embedError)
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    @events.command(name="update")
+    async def updateDate(
+        self,
+        ctx,
+        *,
+        name: Option(str, "The item to update"),
+        date: Option(str, "The new date of the event"),
+        time: Option(str, "The new time of the event"),
+    ):
+        """Updates the date and time of an event"""
+        mainRes = await utils.obtainItemUUID(ctx.author.id, name)
+        try:
+            if len(mainRes) == 0:
+                raise NoItemsError
+            else:
+                for item in mainRes:
+                    fullDateTime = parser.parse(f"{date} {time}").isoformat()
+                    await utils.updateEvent(ctx.author.id, item, fullDateTime)
+                    await ctx.respond(f"{name} has been successfully updated.")
+        except NoItemsError:
+            embedError = discord.Embed()
+            embedError.description = (
+                f"Sadly there are no events with the name of {name}. Please try again."
+            )
+            await ctx.respond(embed=embedError)
 
 
 def setup(bot):

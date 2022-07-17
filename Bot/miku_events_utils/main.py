@@ -4,7 +4,7 @@ import os
 import uvloop
 from dotenv import load_dotenv
 from sqlalchemy import (BigInteger, Boolean, Column, String, Text, delete,
-                        select)
+                        select, update)
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -29,17 +29,17 @@ class UserEvents(Base):
     event_date = Column(String)
     event_passed = Column(Boolean)
 
+    def __iter__(self):
+        yield "event_item_uuid", self.event_item_uuid
+        yield "user_id", self.user_id
+        yield "name", self.name
+        yield "description", self.description
+        yield "date_added", self.date_added
+        yield "event_date", self.event_date
+        yield "event_passed", self.event_passed
+
     def __repr__(self):
-        returnStruct = {
-            "event_item_uuid": self.event_item_uuid,
-            "user_id": self.user_id,
-            "name": self.name,
-            "description": self.description,
-            "date_added": self.date_added,
-            "event_date": self.event_date,
-            "event_passed": self.event_passed,
-        }
-        return returnStruct
+        return f"UserEvents(event_item_uuid={self.event_item_uuid}, user_id={self.user_id}, name={self.name}, description={self.description}, date_added={self.date_added}, event_date={self.event_date}, event_passed={self.event_passed})"
 
 
 class MikuEventsUtils:
@@ -247,5 +247,131 @@ class MikuEventsUtils:
                 )
                 await session2.execute(selectAllDelete)
                 await session2.commit()
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    async def obtainEventsBool(self, event_passed: bool):
+        """Only gets the events from the db that have not been passed yet
+
+        Args:
+            event_passed (bool): Whether the event has been passed or not (Use false)
+        """
+        engine = create_async_engine(
+            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
+        )
+
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            async with session.begin():
+                selectAllEventsBool = select(UserEvents).filter(
+                    UserEvents.event_passed == event_passed
+                )
+                res = await session.execute(selectAllEventsBool)
+                return [row for row in res.scalars()]
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    async def setEventPassed(self, uuid: str, event_passed: bool):
+        """Basically sets an event as passed
+
+        Args:
+            uuid (str): The uuid of the item
+            event_passed (bool): Whether the event has passed or not
+        """
+        engine = create_async_engine(
+            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
+        )
+
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            async with session.begin():
+                selectEventsToPass = update(
+                    UserEvents, values={UserEvents.event_passed: event_passed}
+                ).filter(UserEvents.event_item_uuid == uuid)
+                await session.execute(selectEventsToPass)
+                await session.commit()
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    async def obtainEventsName(self, user_id: int, name: str):
+        """Obtains the event from the given name
+
+        Args:
+            user_id (int): Discord user ID
+            name (str): The name of the event to get
+        """
+        engine = create_async_engine(
+            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
+        )
+
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            async with session.begin():
+                selectItem = (
+                    select(UserEvents)
+                    .filter(UserEvents.user_id == user_id)
+                    .filter(UserEvents.name == name)
+                )
+                res = await session.execute(selectItem)
+                return [row for row in res.scalars()]
+
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    async def updateEvent(self, user_id: int, uuid: str, event_date: str):
+        """Updates the event based on the uuid of the item
+
+        Args:
+            user_id (int): Discord user ID
+            uuid (str): The event item's UUID
+            event_date (str / ISO-8601): The new date and time of the event
+        """
+        engine = create_async_engine(
+            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
+        )
+
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            async with session.begin():
+                updateEvent = (
+                    update(UserEvents, values={UserEvents.event_date: event_date})
+                    .where(UserEvents.event_item_uuid == uuid)
+                    .where(UserEvents.user_id == user_id)
+                )
+                await session.execute(updateEvent)
+                await session.commit()
+
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+    async def obtainItemUUID(self, user_id: int, name: str):
+        """Used to only obtain the UUID of an item. Mainly used for auth purposes
+
+        Args:
+            user_id (int): Discord User ID
+            name (str): Name of the item
+        """
+        engine = create_async_engine(
+            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
+        )
+
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            async with session.begin():
+                selectItemUUID = (
+                    select(UserEvents.event_item_uuid)
+                    .filter(UserEvents.user_id == user_id)
+                    .filter(UserEvents.name == name)
+                )
+                res = await session.execute(selectItemUUID)
+                return [row for row in res.scalars()]
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
