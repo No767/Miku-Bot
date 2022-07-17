@@ -348,7 +348,7 @@ class MikuEventsUtils:
                 await session.execute(updateEvent)
                 await session.commit()
 
-        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     async def obtainItemUUID(self, user_id: int, name: str):
         """Used to only obtain the UUID of an item. Mainly used for auth purposes

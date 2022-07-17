@@ -162,6 +162,8 @@ class DisQuestV1(commands.Cog):
         embed.description = "Do you wish to initialize your DisQuest account? This is completely optional. Click on the buttons to confirm"
         await ctx.respond(embed=embed, view=View())
 
+    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
 
 class DisQuestListener(commands.Cog):
     def __init__(self, bot):
@@ -175,9 +177,7 @@ class DisQuestListener(commands.Cog):
         try:
             await user.addxp(reward, ctx.author.id, ctx.guild.id)
         except TypeError:
-            logging.warn(
-                f"[{ctx.author.name}#{ctx.author.discriminator} - {ctx.guild}] User has not initialized DisQuest account"
-            )
+            pass
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
