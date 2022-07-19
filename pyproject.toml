@@ -22,7 +22,6 @@ cchardet = "*"
 beautifulsoup4 = "*"
 pysimdjson = "*"
 disquest-utils = "*"
-async-google-trans-new = "*"
 gql = {extras = ["aiohttp"], version = "*"}
 rin-exceptions = "*"
 python-dateutil = "^2.8.2"
