@@ -2,7 +2,7 @@
 
 # Miku
 
-![Miku](./Logo-Assets/miku.png)
+![Miku](./Logo-Assets/miku_smaller.png)
 
 [![Required Python Version](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)](https://github.com/No767/Miku/blob/master/pyproject.toml) [![CodeQL](https://github.com/No767/Miku/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/codeql.yml) [![Snyk](https://github.com/No767/Miku/actions/workflows/snyk.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/snyk.yml) [![GitHub License](https://img.shields.io/github/license/No767/Miku?label=License&logo=github)](https://github.com/No767/Miku/blob/master/LICENSE)
 
