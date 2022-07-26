@@ -29,6 +29,8 @@ initial_extensions = [
     "Cogs.invite",
     "Cogs.qrcode-maker",
     "Cogs.reddit",
+    "Cogs.tenor",
+    "Cogs.uwu",
     "Cogs.waifu",
 ]
 for extension in initial_extensions:
