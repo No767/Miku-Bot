@@ -1,4 +1,5 @@
 import asyncio
+import os
 import uuid
 from datetime import datetime
 
@@ -7,10 +8,21 @@ import uvloop
 from dateutil import parser
 from discord.commands import Option, SlashCommandGroup
 from discord.ext import commands, pages
+from dotenv import load_dotenv
 from miku_events_utils import MikuEventsUtils
 from rin_exceptions import NoItemsError
 
+load_dotenv()
+
 utils = MikuEventsUtils()
+
+POSTGRES_PASSWORD = os.getenv("Postgres_Password")
+POSTGRES_USER = os.getenv("Postgres_User")
+POSTGRES_IP = os.getenv("Postgres_IP")
+POSTGRES_PORT = os.getenv("Postgres_Port")
+POSTGRES_EVENTS_DATABASE = os.getenv("Postgres_Events_Database")
+
+EVENTS_CONNECTION_URI = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_IP}:{POSTGRES_PORT}/{POSTGRES_EVENTS_DATABASE}"
 
 
 class View(discord.ui.View):
@@ -25,12 +37,16 @@ class View(discord.ui.View):
         emoji=discord.PartialEmoji.from_str("<:check:314349398811475968>"),
     )
     async def button_callback(self, button, interaction):
-        itemUUIDAuth = await utils.obtainItemUUIDAuth(interaction.user.id)
+        itemUUIDAuth = await utils.obtainItemUUIDAuth(
+            user_id=interaction.user.id, uri=EVENTS_CONNECTION_URI
+        )
         try:
             if len(itemUUIDAuth) == 0:
                 raise NoItemsError
             else:
-                await utils.deleteAllUserEvent(interaction.user.id)
+                await utils.deleteAllUserEvent(
+                    user_id=interaction.user.id, uri=EVENTS_CONNECTION_URI
+                )
                 await interaction.response.send_message(
                     "Confirmed. All events that belong to you are purged. This is permanent and irreversible."
                 )
@@ -80,7 +96,7 @@ class UserEvents(commands.Cog):
             dateOfToday = datetime.now().isoformat()
             user_id = ctx.author.id
             eventPassedInit = False
-            eventUUID = uuid.uuid4()
+            eventUUID = str(uuid.uuid4())
             fullEventDateTimeInput = parser.parse(f"{date} {time}").isoformat()
             await utils.insertNewEvent(
                 event_uuid=eventUUID,
@@ -90,6 +106,7 @@ class UserEvents(commands.Cog):
                 description=description,
                 event_date=fullEventDateTimeInput,
                 event_passed=eventPassedInit,
+                uri=EVENTS_CONNECTION_URI,
             )
             await ctx.respond("Event created!")
         except Exception:
@@ -101,7 +118,9 @@ class UserEvents(commands.Cog):
     async def eventView(self, ctx):
         """Views all of your past and upcoming events"""
         user_id = ctx.author.id
-        userEvents = await utils.selectUserEvent(user_id=user_id)
+        userEvents = await utils.selectUserEvent(
+            user_id=user_id, uri=EVENTS_CONNECTION_URI
+        )
         try:
             if len(userEvents) == 0:
                 raise NoItemsError
@@ -148,7 +167,7 @@ class UserEvents(commands.Cog):
         """View all of your upcoming events"""
         user_id = ctx.author.id
         userEventsPassed = await utils.selectUserEventPassed(
-            user_id=user_id, event_passed=False
+            user_id=user_id, event_passed=False, uri=EVENTS_CONNECTION_URI
         )
         try:
             if len(userEventsPassed) == 0:
@@ -196,7 +215,7 @@ class UserEvents(commands.Cog):
         """View all of your past events"""
         user_id = ctx.author.id
         userEventsPassed = await utils.selectUserEventPassed(
-            user_id=user_id, event_passed=True
+            user_id=user_id, event_passed=True, uri=EVENTS_CONNECTION_URI
         )
         try:
             if len(userEventsPassed) == 0:
@@ -244,7 +263,9 @@ class UserEvents(commands.Cog):
         self, ctx, name: Option(str, "The name of the event you wish to delete")
     ):
         """Deletes one event from your list of events"""
-        userObtainUUID = await utils.obtainItemUUID(user_id=ctx.author.id, name=name)
+        userObtainUUID = await utils.obtainItemUUID(
+            user_id=ctx.author.id, name=name, uri=EVENTS_CONNECTION_URI
+        )
         try:
             if len(userObtainUUID) == 0:
                 raise NoItemsError
@@ -252,7 +273,9 @@ class UserEvents(commands.Cog):
                 for itemUUID in userObtainUUID:
                     eventItemUUID = itemUUID
                 await utils.deleteOneUserEvent(
-                    user_id=ctx.author.id, event_uuid=eventItemUUID
+                    user_id=ctx.author.id,
+                    event_uuid=eventItemUUID,
+                    uri=EVENTS_CONNECTION_URI,
                 )
                 await ctx.respond("Event successfully deleted")
         except NoItemsError:
@@ -276,7 +299,9 @@ class UserEvents(commands.Cog):
         self, ctx, *, name: Option(str, "The name of the event to search for")
     ):
         """Checks how much days until an event will happen and pass"""
-        mainRes = await utils.obtainEventsName(ctx.author.id, name)
+        mainRes = await utils.obtainEventsName(
+            user_id=ctx.author.id, name=name, uri=EVENTS_CONNECTION_URI
+        )
         try:
             if len(mainRes) == 0:
                 raise NoItemsError
@@ -319,14 +344,21 @@ class UserEvents(commands.Cog):
         time: Option(str, "The new time of the event"),
     ):
         """Updates the date and time of an event"""
-        mainRes = await utils.obtainItemUUID(ctx.author.id, name)
+        mainRes = await utils.obtainItemUUID(
+            user_id=ctx.author.id, name=name, uri=EVENTS_CONNECTION_URI
+        )
         try:
             if len(mainRes) == 0:
                 raise NoItemsError
             else:
                 for item in mainRes:
                     fullDateTime = parser.parse(f"{date} {time}").isoformat()
-                    await utils.updateEvent(ctx.author.id, item, fullDateTime)
+                    await utils.updateEvent(
+                        user_id=ctx.author.id,
+                        uuid=item,
+                        event_date=fullDateTime,
+                        uri=EVENTS_CONNECTION_URI,
+                    )
                     await ctx.respond(f"{name} has been successfully updated.")
         except NoItemsError:
             embedError = discord.Embed()

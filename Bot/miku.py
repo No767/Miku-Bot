@@ -1,16 +1,17 @@
 import logging
 import os
+from pathlib import Path
 
 import discord
-from discord.ext import bridge
+from discord.ext import commands
 from dotenv import load_dotenv
 
 # Grabs the bot's token from the .env file
 load_dotenv()
-Discord_Bot_Token = os.getenv("Gumi")
+Discord_Bot_Token = os.getenv("Testing_Bot_Token")
 intents = discord.Intents.default()
 intents.message_content = True
-bot = bridge.Bot(command_prefix=".", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,22 +20,11 @@ logging.basicConfig(
 )
 
 # Loads in all extensions
-initial_extensions = [
-    "Cogs.anilist",
-    # "Cogs.disquest",
-    "Cogs.events",
-    "Cogs.events_task",
-    "Cogs.help",
-    "Cogs.info",
-    "Cogs.invite",
-    "Cogs.qrcode-maker",
-    "Cogs.reddit",
-    "Cogs.tenor",
-    "Cogs.uwu",
-    "Cogs.waifu",
-]
-for extension in initial_extensions:
-    bot.load_extension(extension)
+path = Path(__file__).parents[0]
+cogsList = os.listdir(os.path.join(path, "Cogs"))
+for items in cogsList:
+    if items.endswith(".py"):
+        bot.load_extension(f"Cogs.{items[:-3]}")
 
 # Adds in the bot presence
 @bot.event

@@ -12,12 +12,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PASSWORD = os.getenv("Postgres_Password")
-IP = os.getenv("Postgres_IP")
-USER = os.getenv("Postgres_User")
-DATABASE = os.getenv("Postgres_Database")
-PORT = os.getenv("Postgres_Port")
-CONNECTION_URI = f"postgresql+asyncpg://{USER}:{PASSWORD}@{IP}:{PORT}/{DATABASE}"
+POSTGRES_PASSWORD = os.getenv("Postgres_Password")
+POSTGRES_IP = os.getenv("Postgres_IP")
+POSTGRES_USER = os.getenv("Postgres_User")
+POSTGRES_DISQUEST_DATABASE = os.getenv("Postgres_Disquest_Database")
+POSTGRES_PORT = os.getenv("Postgres_Port")
+CONNECTION_URI = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_IP}:{POSTGRES_PORT}/{POSTGRES_DISQUEST_DATABASE}"
 
 user = DisQuestUsers()
 

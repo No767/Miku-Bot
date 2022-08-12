@@ -1,19 +1,10 @@
 import asyncio
-import os
 
 import uvloop
-from dotenv import load_dotenv
 from sqlalchemy import (BigInteger, Boolean, Column, String, Text, delete,
                         select, update)
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-
-load_dotenv()
-
-POSTGRES_PASSWORD = os.getenv("Postgres_Password")
-POSTGRES_SERVER_IP = os.getenv("Postgres_IP")
-POSTGRES_DATABASE = os.getenv("Postgres_Events_Database")
-POSTGRES_USERNAME = os.getenv("Postgres_User")
 
 Base = declarative_base()
 
@@ -46,10 +37,14 @@ class MikuEventsUtils:
     def __init__(self):
         self.self = self
 
-    async def initTables(self):
-        """Initialize the Database Tables"""
+    async def initTables(self, uri: str):
+        """Initialize the Database Tables
+
+        Args:
+            uri (str): Connection URI
+        """
         engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}",
+            uri,
             echo=True,
         )
         async with engine.begin() as conn:
@@ -66,6 +61,7 @@ class MikuEventsUtils:
         date_added: str,
         event_date: str,
         event_passed: bool,
+        uri: str,
     ):
         """Adds a new item into the DB
 
@@ -77,10 +73,9 @@ class MikuEventsUtils:
             date_added (str / ISO-8601): The date the event was added
             event_date (str / ISO-8601): The date the event is held on
             event_passed (bool): Whether or not the event has passed
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -102,15 +97,14 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def selectUserEvent(self, user_id: int):
+    async def selectUserEvent(self, user_id: int, uri: str):
         """Selects all of the events that a user has
 
         Args:
             user_id (int): Discord User ID
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -123,16 +117,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def selectUserEventPassed(self, user_id: int, event_passed: bool):
+    async def selectUserEventPassed(self, user_id: int, event_passed: bool, uri: str):
         """Obtains any upcoming or past events for the user
 
         Args:
             user_id (int): Discord user ID
             passed (bool): Whether the event has passed or not
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -149,16 +142,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def deleteOneUserEvent(self, user_id: int, event_uuid: str):
+    async def deleteOneUserEvent(self, user_id: int, event_uuid: str, uri: str):
         """Deletes one event from the user
 
         Args:
             user_id (int): Discord User ID
             event_uuid (str): Event UUID
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -177,16 +169,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def obtainItemUUID(self, user_id: int, name: str):
+    async def obtainItemUUID(self, user_id: int, name: str, uri: str):
         """Obtains the Item's UUID via its name
 
         Args:
             user_id (int): Discord User ID
             name (str): The name of the item
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -203,16 +194,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def obtainItemUUIDAuth(self, user_id: int):
+    async def obtainItemUUIDAuth(self, user_id: int, uri: str):
         """Obtains the Item's UUID via the discord user's ID
         This is used to obtain the UUId before purging all events from the user's account
 
         Args:
             user_id (int): Discord User ID
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -227,15 +217,14 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def deleteAllUserEvent(self, user_id: int):
+    async def deleteAllUserEvent(self, user_id: int, uri: str):
         """Deletes ALL events from the user
 
         Args:
             user_id (int): Discord User ID
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session2 = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -250,15 +239,14 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def obtainEventsBool(self, event_passed: bool):
+    async def obtainEventsBool(self, event_passed: bool, uri: str):
         """Only gets the events from the db that have not been passed yet
 
         Args:
             event_passed (bool): Whether the event has been passed or not (Use false)
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -273,16 +261,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def setEventPassed(self, uuid: str, event_passed: bool):
+    async def setEventPassed(self, uuid: str, event_passed: bool, uri: str):
         """Basically sets an event as passed
 
         Args:
             uuid (str): The uuid of the item
             event_passed (bool): Whether the event has passed or not
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -297,16 +284,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def obtainEventsName(self, user_id: int, name: str):
+    async def obtainEventsName(self, user_id: int, name: str, uri: str):
         """Obtains the event from the given name
 
         Args:
             user_id (int): Discord user ID
             name (str): The name of the event to get
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -323,17 +309,16 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def updateEvent(self, user_id: int, uuid: str, event_date: str):
+    async def updateEvent(self, user_id: int, uuid: str, event_date: str, uri: str):
         """Updates the event based on the uuid of the item
 
         Args:
             user_id (int): Discord user ID
             uuid (str): The event item's UUID
             event_date (str / ISO-8601): The new date and time of the event
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
@@ -350,16 +335,15 @@ class MikuEventsUtils:
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    async def obtainItemUUID(self, user_id: int, name: str):
+    async def obtainItemUUID(self, user_id: int, name: str, uri: str):
         """Used to only obtain the UUID of an item. Mainly used for auth purposes
 
         Args:
             user_id (int): Discord User ID
             name (str): Name of the item
+            uri (str): Connection URI
         """
-        engine = create_async_engine(
-            f"postgresql+asyncpg://{POSTGRES_USERNAME}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER_IP}:5432/{POSTGRES_DATABASE}"
-        )
+        engine = create_async_engine(uri)
 
         async_session = sessionmaker(
             engine, expire_on_commit=False, class_=AsyncSession
