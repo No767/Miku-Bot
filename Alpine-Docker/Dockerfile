@@ -40,8 +40,10 @@ RUN apk add --no-cache \
 
 WORKDIR /Miku
 
-COPY /Bot/Miku.py /Miku/Bot/
+COPY /Bot/miku.py /Miku/Bot/
 COPY /Bot/Cogs/ /Miku/Bot/Cogs
+COPY /Bot/miku_events_utils/ /Miku/Bot/miku_events_utils
+COPY /Bot/miku_config_utils/ /Miku/Bot/miku_config_utils
 
 # Copy dependency wheels from builder stage
 COPY --from=builder /Miku/wheels /Miku/wheels
@@ -56,7 +58,7 @@ RUN adduser --disabled-password --gecos "" miku \
     && chown -R miku:miku /Miku \
     && chmod +x /Miku/start.sh
 
-USER reina
+USER miku
 
 # Install dependencies
 RUN pip install --user --no-index --find-links=/Miku/wheels -r requirements.txt

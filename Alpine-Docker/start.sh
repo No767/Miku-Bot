@@ -9,17 +9,17 @@ else
 fi
 
 if [[ -v TESTING_BOT_TOKEN ]]; then
-    echo "Testing_Bot_Token=${TESTING_BOT_TOKEN}" >> /Rin/Bot/.env
+    echo "Testing_Bot_Token=${TESTING_BOT_TOKEN}" >> /Miku/Bot/.env
 fi 
 
 if [[ -v REDDIT_ID ]]; then
-    echo "Reddit_ID=${REDDIT_ID}" >> /Rin/Bot/.env
+    echo "Reddit_ID=${REDDIT_ID}" >> /Miku/Bot/.env
 else
     echo "Missing Reddit ID! REDDIT_ID environment variable is not set."
 fi 
 
 if [[ -v REDDIT_SECRET ]]; then
-    echo "Reddit_Secret=${REDDIT_SECRET}" >> /Rin/Bot/.env
+    echo "Reddit_Secret=${REDDIT_SECRET}" >> /Miku/Bot/.env
 else
     echo "Missing Reddit secret! REDDIT_SECRET environment variable is not set."
 fi 

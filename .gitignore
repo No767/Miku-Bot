@@ -5,3 +5,4 @@ __pycache__
 Bot/Cog-Testers
 Bot/Cog-Testers/*
 test-script.py
+run.sh
