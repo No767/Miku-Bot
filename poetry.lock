@@ -177,8 +177,8 @@ python-versions = ">=3.6.0"
 soupsieve = ">1.2"
 
 [package.extras]
-lxml = ["lxml"]
 html5lib = ["html5lib"]
+lxml = ["lxml"]
 
 [[package]]
 name = "brotli"
@@ -275,8 +275,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-testing = ["pytest-timeout (>=2.1)", "pytest-cov (>=3)", "pytest (>=7.1.2)", "coverage (>=6.4.2)", "covdefaults (>=2.2)"]
-docs = ["sphinx-autodoc-typehints (>=1.19.1)", "sphinx (>=5.1.1)", "furo (>=2022.6.21)"]
+docs = ["furo (>=2022.6.21)", "sphinx (>=5.1.1)", "sphinx-autodoc-typehints (>=1.19.1)"]
+testing = ["covdefaults (>=2.2)", "coverage (>=6.4.2)", "pytest (>=7.1.2)", "pytest-cov (>=3)", "pytest-timeout (>=2.1)"]
 
 [[package]]
 name = "frozenlist"
@@ -301,14 +301,14 @@ graphql-core = ">=3.2,<3.3"
 yarl = ">=1.6,<2.0"
 
 [package.extras]
-websockets = ["websockets (>=10,<11)", "websockets (>=9,<10)"]
-test_no_transport = ["aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)"]
-test = ["websockets (>=10,<11)", "websockets (>=9,<10)", "aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
-requests = ["urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)"]
-dev = ["websockets (>=10,<11)", "websockets (>=9,<10)", "aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)", "types-requests", "types-mock", "types-aiofiles", "sphinx-argparse (==0.2.5)", "sphinx-rtd-theme (>=0.4,<1)", "sphinx (>=3.0.0,<4)", "mypy (==0.910)", "isort (==4.3.21)", "flake8 (==3.8.1)", "check-manifest (>=0.42,<1)", "black (==22.3.0)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
-botocore = ["botocore (>=1.21,<2)"]
-all = ["websockets (>=10,<11)", "websockets (>=9,<10)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
 aiohttp = ["aiohttp (>=3.7.1,<3.9.0)"]
+all = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+botocore = ["botocore (>=1.21,<2)"]
+dev = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "black (==22.3.0)", "check-manifest (>=0.42,<1)", "flake8 (==3.8.1)", "isort (==4.3.21)", "mypy (==0.910)", "sphinx (>=3.0.0,<4)", "sphinx-rtd-theme (>=0.4,<1)", "sphinx-argparse (==0.2.5)", "types-aiofiles", "types-mock", "types-requests", "parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+requests = ["requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)"]
+test = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+test_no_transport = ["parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles"]
+websockets = ["websockets (>=9,<10)", "websockets (>=10,<11)"]
 
 [[package]]
 name = "graphql-core"
@@ -556,7 +556,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "rin-exceptions"
-version = "1.0.2"
+version = "1.0.3"
 description = "A set of base exceptions for Rin"
 category = "main"
 optional = false
@@ -638,9 +638,9 @@ python-versions = "*"
 requests = ">=2.3.0"
 
 [package.extras]
+dev = ["black", "flake8", "pytest (>=2.7.3)"]
+lint = ["black", "flake8"]
 test = ["pytest (>=2.7.3)"]
-lint = ["flake8", "black"]
-dev = ["pytest (>=2.7.3)", "flake8", "black"]
 
 [[package]]
 name = "urllib3"
@@ -682,8 +682,8 @@ filelock = ">=3.4.1,<4"
 platformdirs = ">=2.4,<3"
 
 [package.extras]
-testing = ["pytest-timeout (>=2.1)", "pytest-randomly (>=3.10.3)", "pytest-mock (>=3.6.1)", "pytest-freezegun (>=0.4.2)", "pytest-env (>=0.6.2)", "pytest (>=7.0.1)", "packaging (>=21.3)", "flaky (>=3.7)", "coverage-enable-subprocess (>=1)", "coverage (>=6.2)"]
-docs = ["towncrier (>=21.9)", "sphinx-rtd-theme (>=1)", "sphinx-argparse (>=0.3.1)", "sphinx (>=5.1.1)", "proselint (>=0.13)"]
+docs = ["proselint (>=0.13)", "sphinx (>=5.1.1)", "sphinx-argparse (>=0.3.1)", "sphinx-rtd-theme (>=1)", "towncrier (>=21.9)"]
+testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=21.3)", "pytest (>=7.0.1)", "pytest-env (>=0.6.2)", "pytest-freezegun (>=0.4.2)", "pytest-mock (>=3.6.1)", "pytest-randomly (>=3.10.3)", "pytest-timeout (>=2.1)"]
 
 [[package]]
 name = "yarl"
@@ -1593,8 +1593,8 @@ requests = [
     {file = "requests-2.28.1.tar.gz", hash = "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983"},
 ]
 rin-exceptions = [
-    {file = "rin-exceptions-1.0.2.tar.gz", hash = "sha256:d46b0d19647e54a7d2454b0d5a8566d8cab0c1a974df12788dc7eaac280ee963"},
-    {file = "rin_exceptions-1.0.2-py3-none-any.whl", hash = "sha256:043b83c5456fc3bfde7d814d719cb1b869d35ec497fe042af81da6c076f28759"},
+    {file = "rin-exceptions-1.0.3.tar.gz", hash = "sha256:8044e89f50280b0d0e14639e0727405b49a0cf54a73b6993c2dd4cc56d0182c2"},
+    {file = "rin_exceptions-1.0.3-py3-none-any.whl", hash = "sha256:7d0e467a313d208589f1340c6225636ae2325e5b0a7be39e0361f1ab0d986fee"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
