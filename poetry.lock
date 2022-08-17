@@ -177,8 +177,8 @@ python-versions = ">=3.6.0"
 soupsieve = ">1.2"
 
 [package.extras]
-lxml = ["lxml"]
 html5lib = ["html5lib"]
+lxml = ["lxml"]
 
 [[package]]
 name = "brotli"
@@ -275,8 +275,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-testing = ["pytest-timeout (>=2.1)", "pytest-cov (>=3)", "pytest (>=7.1.2)", "coverage (>=6.4.2)", "covdefaults (>=2.2)"]
-docs = ["sphinx-autodoc-typehints (>=1.19.1)", "sphinx (>=5.1.1)", "furo (>=2022.6.21)"]
+docs = ["furo (>=2022.6.21)", "sphinx (>=5.1.1)", "sphinx-autodoc-typehints (>=1.19.1)"]
+testing = ["covdefaults (>=2.2)", "coverage (>=6.4.2)", "pytest (>=7.1.2)", "pytest-cov (>=3)", "pytest-timeout (>=2.1)"]
 
 [[package]]
 name = "frozenlist"
@@ -301,14 +301,14 @@ graphql-core = ">=3.2,<3.3"
 yarl = ">=1.6,<2.0"
 
 [package.extras]
-websockets = ["websockets (>=10,<11)", "websockets (>=9,<10)"]
-test_no_transport = ["aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)"]
-test = ["websockets (>=10,<11)", "websockets (>=9,<10)", "aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
-requests = ["urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)"]
-dev = ["websockets (>=10,<11)", "websockets (>=9,<10)", "aiofiles", "vcrpy (==4.0.2)", "mock (==4.0.2)", "pytest-cov (==3.0.0)", "pytest-console-scripts (==1.3.1)", "pytest-asyncio (==0.16.0)", "pytest (==6.2.5)", "parse (==1.15.0)", "types-requests", "types-mock", "types-aiofiles", "sphinx-argparse (==0.2.5)", "sphinx-rtd-theme (>=0.4,<1)", "sphinx (>=3.0.0,<4)", "mypy (==0.910)", "isort (==4.3.21)", "flake8 (==3.8.1)", "check-manifest (>=0.42,<1)", "black (==22.3.0)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
-botocore = ["botocore (>=1.21,<2)"]
-all = ["websockets (>=10,<11)", "websockets (>=9,<10)", "botocore (>=1.21,<2)", "urllib3 (>=1.26)", "requests-toolbelt (>=0.9.1,<1)", "requests (>=2.26,<3)", "aiohttp (>=3.7.1,<3.9.0)"]
 aiohttp = ["aiohttp (>=3.7.1,<3.9.0)"]
+all = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+botocore = ["botocore (>=1.21,<2)"]
+dev = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "black (==22.3.0)", "check-manifest (>=0.42,<1)", "flake8 (==3.8.1)", "isort (==4.3.21)", "mypy (==0.910)", "sphinx (>=3.0.0,<4)", "sphinx-rtd-theme (>=0.4,<1)", "sphinx-argparse (==0.2.5)", "types-aiofiles", "types-mock", "types-requests", "parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+requests = ["requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)"]
+test = ["aiohttp (>=3.7.1,<3.9.0)", "requests (>=2.26,<3)", "requests-toolbelt (>=0.9.1,<1)", "urllib3 (>=1.26)", "botocore (>=1.21,<2)", "parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles", "websockets (>=9,<10)", "websockets (>=10,<11)"]
+test_no_transport = ["parse (==1.15.0)", "pytest (==6.2.5)", "pytest-asyncio (==0.16.0)", "pytest-console-scripts (==1.3.1)", "pytest-cov (==3.0.0)", "mock (==4.0.2)", "vcrpy (==4.0.2)", "aiofiles"]
+websockets = ["websockets (>=9,<10)", "websockets (>=10,<11)"]
 
 [[package]]
 name = "graphql-core"
@@ -424,7 +424,7 @@ virtualenv = ">=20.0.8"
 
 [[package]]
 name = "py-cord"
-version = "2.0.0"
+version = "2.0.1"
 description = "A Python wrapper for the Discord API"
 category = "main"
 optional = false
@@ -638,9 +638,9 @@ python-versions = "*"
 requests = ">=2.3.0"
 
 [package.extras]
+dev = ["black", "flake8", "pytest (>=2.7.3)"]
+lint = ["black", "flake8"]
 test = ["pytest (>=2.7.3)"]
-lint = ["flake8", "black"]
-dev = ["pytest (>=2.7.3)", "flake8", "black"]
 
 [[package]]
 name = "urllib3"
@@ -682,8 +682,8 @@ filelock = ">=3.4.1,<4"
 platformdirs = ">=2.4,<3"
 
 [package.extras]
-testing = ["pytest-timeout (>=2.1)", "pytest-randomly (>=3.10.3)", "pytest-mock (>=3.6.1)", "pytest-freezegun (>=0.4.2)", "pytest-env (>=0.6.2)", "pytest (>=7.0.1)", "packaging (>=21.3)", "flaky (>=3.7)", "coverage-enable-subprocess (>=1)", "coverage (>=6.2)"]
-docs = ["towncrier (>=21.9)", "sphinx-rtd-theme (>=1)", "sphinx-argparse (>=0.3.1)", "sphinx (>=5.1.1)", "proselint (>=0.13)"]
+docs = ["proselint (>=0.13)", "sphinx (>=5.1.1)", "sphinx-argparse (>=0.3.1)", "sphinx-rtd-theme (>=1)", "towncrier (>=21.9)"]
+testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7)", "packaging (>=21.3)", "pytest (>=7.0.1)", "pytest-env (>=0.6.2)", "pytest-freezegun (>=0.4.2)", "pytest-mock (>=3.6.1)", "pytest-randomly (>=3.10.3)", "pytest-timeout (>=2.1)"]
 
 [[package]]
 name = "yarl"
@@ -700,7 +700,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "fd240b2e3dd7189fde34cd7bd8264fa64b7c65fbf2d528b9834dd6556c8e386f"
+content-hash = "dbde0db65635c842a98fba0886c3b4d406fcecb7c83b603dc24c9af855f3561e"
 
 [metadata.files]
 aiodns = [
@@ -1396,8 +1396,8 @@ pre-commit = [
     {file = "pre_commit-2.20.0.tar.gz", hash = "sha256:a978dac7bc9ec0bcee55c18a277d553b0f419d259dadb4b9418ff2d00eb43959"},
 ]
 py-cord = [
-    {file = "py-cord-2.0.0.tar.gz", hash = "sha256:045bf5409a657f5125cb6d66e82715e188b179af1851de37ccc0685837646336"},
-    {file = "py_cord-2.0.0-py3-none-any.whl", hash = "sha256:8f91af822b9cb65adb72f0bf67c77fe9c98db54bf5342d52c5bb0ee1d95ee625"},
+    {file = "py-cord-2.0.1.tar.gz", hash = "sha256:43149040431c0bc13dfc12685d5e636c15f1b9ecba2d162ecb6b22d66b3e5684"},
+    {file = "py_cord-2.0.1-py3-none-any.whl", hash = "sha256:2ee7b5ceb86fdee34dc7b104d9e6628f132ecf194f78810328381b68c5e09c18"},
 ]
 pycares = [
     {file = "pycares-4.2.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:5dc6418e87729105d93162155793002b3fa95490e2f2df33afec08b0b0d44989"},
