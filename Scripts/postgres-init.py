@@ -4,16 +4,16 @@ import sys
 from pathlib import Path
 
 import uvloop
+from disquest_utils import DisQuestUsers
 from dotenv import load_dotenv
 
 path = Path(__file__).parents[1]
-sys.path.append(os.path.join(path, "Bot"))
-envPath = os.path.join(path, "Bot", ".env")
+sys.path.append(os.path.join(str(path), "Bot"))
+envPath = os.path.join(str(path), "Bot", ".env")
 
-from disquest_utils import DisQuestUsers
 from miku_events_utils import MikuEventsUtils
 
-load_dotenv(envPath)
+load_dotenv(dotenv_path=envPath)
 
 POSTGRES_PASSWORD = os.getenv("Postgres_Password")
 POSTGRES_USER = os.getenv("Postgres_User")

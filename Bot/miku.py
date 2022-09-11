@@ -24,7 +24,7 @@ path = Path(__file__).parents[0]
 cogsList = os.listdir(os.path.join(path, "Cogs"))
 for items in cogsList:
     if items.endswith(".py"):
-        bot.load_extension(f"Cogs.{items[:-3]}")
+        bot.load_extension(f"Cogs.{items[:-3]}", store=False)
 
 # Adds in the bot presence
 @bot.event
