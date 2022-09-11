@@ -3,7 +3,7 @@ import platform
 
 import discord
 import uvloop
-from discord.commands import SlashCommandGroup
+from discord.commands import Option, SlashCommandGroup
 from discord.ext import commands
 
 
@@ -49,30 +49,66 @@ class InfoV1(commands.Cog):
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     @info.command(name="user")
-    async def userInfo(self, ctx: discord.ClientUser):
-        """Provides info about the current user"""
-        embedUser = discord.Embed()
-        embedUser.title = ctx.author.name
-        embedUser.add_field(name="Bot Account?", value=ctx.author.bot, inline=True)
-        embedUser.add_field(
-            name="Creation Date (UTC, 24hr)",
-            value=ctx.author.created_at.strftime("%Y-%m-%d %H:%M"),
-            inline=True,
-        )
-        embedUser.add_field(
-            name="Creation Date (UTC, 12hr or AM/PM)",
-            value=ctx.author.created_at.strftime("%Y-%m-%d %I:%M %p"),
-            inline=True,
-        )
-        embedUser.add_field(
-            name="Discriminator", value=ctx.author.discriminator, inline=True
-        )
-        embedUser.add_field(
-            name="Display Name", value=ctx.author.display_name, inline=True
-        )
-        embedUser.add_field(name="ID", value=ctx.author.id, inline=True)
-        embedUser.set_thumbnail(url=ctx.author.display_avatar)
-        await ctx.respond(embed=embedUser)
+    async def getUserInfo(
+        self, ctx, *, user: Option(discord.Member, "The user to get the info of")
+    ):
+        """Gets info about the requested user"""
+        try:
+            embed = discord.Embed()
+            embed.set_thumbnail(url=user.display_avatar.url)
+            embed.title = user.display_name
+            embed.add_field(
+                name="On Nitro Since (UTC)",
+                value=user.premium_since.strftime("%Y-%m-%d %H:%M:%S")
+                if user.premium_since is not None
+                else None,
+                inline=True,
+            )
+            embed.add_field(
+                name="Account Creation Date (UTC)",
+                value=user.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                inline=True,
+            )
+            embed.add_field(
+                name="Server Join Date (UTC)",
+                value=user.joined_at.strftime("%Y-%m-%d %H:%M:%S")
+                if user.joined_at is not None
+                else None,
+                inline=True,
+            )
+            embed.add_field(
+                name="Timeout Since",
+                value=user.communication_disabled_until.strftime("%Y-%m-%d %H:%M:%S")
+                if user.communication_disabled_until is not None
+                else None,
+                inline=True,
+            )
+            embed.add_field(
+                name="Roles",
+                value=str([roleName.name for roleName in user.roles][1:]).replace(
+                    "'", ""
+                ),
+                inline=True,
+            )
+            embed.add_field(
+                name="Desktop Status", value=user.desktop_status, inline=True
+            )
+            embed.add_field(name="Web Status", value=user.web_status, inline=True)
+            embed.add_field(name="On Mobile?", value=user.is_on_mobile(), inline=True)
+            embed.add_field(name="Bot?", value=user.bot, inline=True)
+            embed.add_field(name="Top Role", value=user.top_role.name, inline=True)
+            embed.add_field(
+                name="Mutual Guilds",
+                value=str([guilds.name for guilds in user.mutual_guilds]).replace(
+                    "'", ""
+                ),
+                inline=True,
+            )
+            embed.add_field(name="Guild Nickname", value=user.nick, inline=True)
+            embed.add_field(name="On Timeout?", value=user.timed_out, inline=True)
+            await ctx.respond(embed=embed)
+        except Exception as e:
+            await ctx.respond(f"An error occured: {type(e).__name__}: {str(e)}")
 
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
