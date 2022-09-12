@@ -21,7 +21,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            no767/kumiko
+            no767/miku
           tags: |
             type=semver,pattern={{version}},suffix=-alpine
             type=semver,pattern={{major}}.{{minor}},suffix=-alpine
@@ -75,7 +75,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            no767/kumiko
+            no767/miku
           tags: |
             type=semver,pattern={{version}},suffix=-bullseye
             type=semver,pattern={{major}}.{{minor}},suffix=-bullseye
