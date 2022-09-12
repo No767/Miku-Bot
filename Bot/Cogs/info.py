@@ -11,9 +11,7 @@ class InfoV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    info = SlashCommandGroup(
-        "info", "Commands that provide info", guild_ids=[978546162745348116]
-    )
+    info = SlashCommandGroup("info", "Commands that provide info")
 
     @info.command(name="bot")
     async def botinfo(self, ctx):

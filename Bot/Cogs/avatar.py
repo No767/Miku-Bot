@@ -7,12 +7,8 @@ class UserAvatar(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    avatar = SlashCommandGroup(
-        "avatar", "Commands for the avatar command", guild_ids=[978546162745348116]
-    )
-    avatarGet = avatar.create_subgroup(
-        "get", "Get the avatar of a user or bot", guild_ids=[978546162745348116]
-    )
+    avatar = SlashCommandGroup("avatar", "Commands for the avatar command")
+    avatarGet = avatar.create_subgroup("get", "Get the avatar of a user or bot")
 
     @avatarGet.command(name="user")
     async def avatarGetUser(

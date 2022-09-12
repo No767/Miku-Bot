@@ -65,10 +65,10 @@ else
     exit 1;
 fi
 
-if [[ -v POSTGRES_GWS_DATABASE ]]; then
-    echo "Postgres_GWS_Database=${POSTGRES_GWS_DATABASE}" >> /Miku/Bot/.env
+if [[ -v POSTGRES_WS_DATABASE ]]; then
+    echo "Postgres_WS_Database=${POSTGRES_WS_DATABASE}" >> /Miku/Bot/.env
 else
-    echo "Missing Postgres_GWS_Database env var! POSTGRES_GWS_DATABASE environment variable is not set."
+    echo "Missing Postgres_WS_Database env var! POSTGRES_WS_DATABASE environment variable is not set."
     exit 1;
 fi
 

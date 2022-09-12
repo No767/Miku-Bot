@@ -17,12 +17,8 @@ class MangaDexV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    md = SlashCommandGroup(
-        "mangadex", "Commmands for the MangaDex service", guild_ids=[978546162745348116]
-    )
-    mdSearch = md.create_subgroup(
-        "search", "Search for stuff on MangaDex", guild_ids=[978546162745348116]
-    )
+    md = SlashCommandGroup("mangadex", "Commmands for the MangaDex service")
+    mdSearch = md.create_subgroup("search", "Search for stuff on MangaDex")
 
     @mdSearch.command(name="manga")
     async def manga(self, ctx, *, manga: Option(str, "Name of Manga")):

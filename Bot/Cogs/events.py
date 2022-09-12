@@ -69,16 +69,11 @@ class UserEvents(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    events = SlashCommandGroup(
-        "events", "Commands for Miku's Events System", guild_ids=[978546162745348116]
-    )
-    eventsView = events.create_subgroup(
-        "view", "View the events", guild_ids=[978546162745348116]
-    )
+    events = SlashCommandGroup("events", "Commands for Miku's Events System")
+    eventsView = events.create_subgroup("view", "View the events")
     eventsDelete = events.create_subgroup(
         "delete",
         "Delete commands for the events system",
-        guild_ids=[978546162745348116],
     )
 
     @events.command(name="create")

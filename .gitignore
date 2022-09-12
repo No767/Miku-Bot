@@ -8,3 +8,4 @@ test-script.py
 run.sh
 docker-compose.yml
 .env
+starRankTest.py

@@ -13,12 +13,8 @@ class AniListV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    anilist = SlashCommandGroup(
-        "anilist", "Commands for AniList service", guild_ids=[978546162745348116]
-    )
-    anilistSearch = anilist.create_subgroup(
-        "search", "Search for anime on AniList", guild_ids=[978546162745348116]
-    )
+    anilist = SlashCommandGroup("anilist", "Commands for AniList service")
+    anilistSearch = anilist.create_subgroup("search", "Search for anime on AniList")
 
     @anilistSearch.command(name="anime")
     async def aniListSearchAnime(

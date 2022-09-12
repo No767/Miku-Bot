@@ -39,6 +39,7 @@ COPY /Bot/miku.py /Miku/Bot/
 COPY /Bot/Cogs/ /Miku/Bot/Cogs
 COPY /Bot/miku_events_utils/ /Miku/Bot/miku_events_utils
 COPY /Bot/miku_config_utils/ /Miku/Bot/miku_config_utils
+COPY /Bot/genshin_wish_sim_utils/ /Miku/Bot/genshin_wish_sim_utils
 COPY /Alpine-Docker/start.sh /Miku/start.sh
 
 COPY --from=builder /Miku/wheels /Miku/wheels

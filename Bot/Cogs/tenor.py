@@ -21,15 +21,9 @@ class TenorV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    tenor = SlashCommandGroup(
-        "tenor", "Tenor API commands", guild_ids=[978546162745348116]
-    )
-    tenorSearch = tenor.create_subgroup(
-        "search", "Search Tenor", guild_ids=[978546162745348116]
-    )
-    tenorTrending = tenor.create_subgroup(
-        "trending", "Trending Tenor", guild_ids=[978546162745348116]
-    )
+    tenor = SlashCommandGroup("tenor", "Tenor API commands")
+    tenorSearch = tenor.create_subgroup("search", "Search Tenor")
+    tenorTrending = tenor.create_subgroup("trending", "Trending Tenor")
 
     @tenorSearch.command(name="multiple")
     async def tenor_search(

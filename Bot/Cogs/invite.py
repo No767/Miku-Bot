@@ -10,7 +10,6 @@ class invite(commands.Cog):
     @slash_command(
         name="invite",
         description="Provides the invite links for Miku",
-        guild_ids=[978546162745348116],
     )
     async def invite(self, ctx):
         embed = discord.Embed()

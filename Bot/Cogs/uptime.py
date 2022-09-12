@@ -20,7 +20,6 @@ class UptimeV1(commands.Cog):
     @slash_command(
         name="uptime",
         description="Returns Uptime for Miku",
-        guild_ids=[978546162745348116],
     )
     async def botUptime(self, ctx):
         uptime = datetime.timedelta(seconds=int(round(time.time() - startTime)))

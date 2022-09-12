@@ -17,12 +17,8 @@ class WaifuCmdsV1(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    waifu = SlashCommandGroup(
-        "waifu", "Commands to get a ton of waifu stuff", guild_ids=[978546162745348116]
-    )
-    waifuRandom = waifu.create_subgroup(
-        "random", "Get a random waifu", guild_ids=[978546162745348116]
-    )
+    waifu = SlashCommandGroup("waifu", "Commands to get a ton of waifu stuff")
+    waifuRandom = waifu.create_subgroup("random", "Get a random waifu")
 
     @waifuRandom.command(name="one")
     async def waifuPic(self, ctx):

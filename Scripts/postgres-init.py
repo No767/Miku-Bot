@@ -11,6 +11,7 @@ path = Path(__file__).parents[1]
 sys.path.append(os.path.join(str(path), "Bot"))
 envPath = os.path.join(str(path), "Bot", ".env")
 
+from genshin_wish_sim_utils import MikuWSUtils
 from miku_events_utils import MikuEventsUtils
 
 load_dotenv(dotenv_path=envPath)
@@ -21,17 +22,21 @@ POSTGRES_IP = os.getenv("Postgres_IP")
 POSTGRES_PORT = os.getenv("Postgres_Port")
 POSTGRES_DISQUEST_DATABASE = os.getenv("Postgres_Disquest_Database")
 POSTGRES_EVENTS_DATABASE = os.getenv("Postgres_Events_Database")
+POSTGRES_WS_DATABASE = os.getenv("Postgres_WS_Database")
 
 DISQUEST_CONNECTION_URI = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_IP}:{POSTGRES_PORT}/{POSTGRES_DISQUEST_DATABASE}"
 EVENTS_CONNECTION_URI = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_IP}:{POSTGRES_PORT}/{POSTGRES_EVENTS_DATABASE}"
+WS_CONNECTION_URI = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_IP}:{POSTGRES_PORT}/{POSTGRES_WS_DATABASE}"
 
 eventUtils = MikuEventsUtils()
+wsUtils = MikuWSUtils()
 disquestUtils = DisQuestUsers()
 
 
 async def main():
     await disquestUtils.initTables(uri=DISQUEST_CONNECTION_URI)
     await eventUtils.initTables(uri=EVENTS_CONNECTION_URI)
+    await wsUtils.initAllWSTables(uri=WS_CONNECTION_URI)
 
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
