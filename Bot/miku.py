@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # Grabs the bot's token from the .env file
 load_dotenv()
-Discord_Bot_Token = os.getenv("Testing_Bot_Token")
+Discord_Bot_Token = os.getenv("Miku_Dev_Token")
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)

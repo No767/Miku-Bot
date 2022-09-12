@@ -8,8 +8,8 @@ else
     exit 1;
 fi
 
-if [[ -v TESTING_BOT_TOKEN ]]; then
-    echo "Testing_Bot_Token=${TESTING_BOT_TOKEN}" >> /Miku/Bot/.env
+if [[ -v MIKU_DEV_TOKEN ]]; then
+    echo "Miku_Dev_Token=${MIKU_DEV_TOKEN}" >> /Miku/Bot/.env
 fi 
 
 if [[ -v REDDIT_ID ]]; then
