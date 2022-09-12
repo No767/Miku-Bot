@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  # miku:
+  #   container_name: Miku
+  #   image: no767/miku:latest
+  #   restart: always
+  #   deploy:
+  #     restart_policy:
+  #       condition: on-failure
+  #       delay: 0s
+  #       max_attempts: 3
+  #       window: 120s
+  #     mode: replicated
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
+
+  postgres:
+    container_name: Miku-Postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password # Change this to another password
+      - POSTGRES_USER=Miku
+      - POSTGRES_DB=Miku
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_volume:
