@@ -65,6 +65,14 @@ else
     exit 1;
 fi
 
+if [[ -v POSTGRES_GWS_DATABASE ]]; then
+    echo "Postgres_GWS_Database=${POSTGRES_GWS_DATABASE}" >> /Miku/Bot/.env
+else
+    echo "Missing Postgres_GWS_Database env var! POSTGRES_GWS_DATABASE environment variable is not set."
+    exit 1;
+fi
+
+
 if [[ -v POSTGRES_PORT ]]; then
     echo "Postgres_Port=${POSTGRES_PORT}" >> /Miku/Bot/.env
 else

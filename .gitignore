@@ -7,3 +7,4 @@ Bot/Cog-Testers/*
 test-script.py
 run.sh
 docker-compose.yml
+.env
