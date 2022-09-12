@@ -4,7 +4,7 @@
 
 ![Miku](./Logo-Assets/miku_smaller.png)
 
-[![Required Python Version](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)](https://github.com/No767/Miku/blob/master/pyproject.toml) [![CodeQL](https://github.com/No767/Miku/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/codeql.yml) [![Snyk](https://github.com/No767/Miku/actions/workflows/snyk.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/snyk.yml) [![GitHub License](https://img.shields.io/github/license/No767/Miku?label=License&logo=github)](https://github.com/No767/Miku/blob/master/LICENSE)
+[![Required Python Version](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)](https://github.com/No767/Miku/blob/master/pyproject.toml) [![CodeQL](https://github.com/No767/Miku/actions/workflows/codeql.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/codeql.yml) [![Snyk](https://github.com/No767/Miku/actions/workflows/snyk.yml/badge.svg?branch=master)](https://github.com/No767/Miku/actions/workflows/snyk.yml) [![Docker Build (GHCR)](https://github.com/No767/Miku/actions/workflows/docker-build-ghcr.yml/badge.svg)](https://github.com/No767/Miku/actions/workflows/docker-build-ghcr.yml) [![Docker Build (Hub)](https://github.com/No767/Miku/actions/workflows/docker-build-hub.yml/badge.svg)](https://github.com/No767/Miku/actions/workflows/docker-build-hub.yml) [![GitHub License](https://img.shields.io/github/license/No767/Miku?label=License&logo=github)](https://github.com/No767/Miku/blob/master/LICENSE)
 
 A Multipurpose bot focused on simplicity, speed and efficiency.
 
@@ -22,6 +22,7 @@ Miku is a multipurpose bot focused on simplicity, speed and efficiency. Miku is 
 - Support for Kumiko's Economy system
 - XP system (DisQuest)
 - Customizable commands
+- Genshin-based Wish Sim
 
 # Prefix
 
