@@ -28,9 +28,14 @@ Miku is a multipurpose bot focused on simplicity, speed and efficiency. Miku is 
 
 Miku's current prefix is `/`. Miku currently uses slash commands, but used to use the `miku` prefix.
 
-# Contributing
+# Getting Started
 
-See [Contributing](./contributing.md)
+If you would like to get started, here are some links to help you with that:
+
+- [Self Hosting Guide](https://miku-docs.vercel.app/docs/self-hosting-miku/self-hosting-guide)
+- [Contributing](./contributing.md)
+- [Documentation](https://miku-docs.vercel.app/)
+
 # Licensing
 
 All of Miku's code is licensed under Apache-2.0
