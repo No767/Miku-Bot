@@ -25,7 +25,7 @@ disquest-utils = "*"
 gql = {extras = ["aiohttp"], version = "*"}
 rin-exceptions = "*"
 python-dateutil = "^2.8.2"
-numpy = "^1.24.0"
+numpy = "^1.24.2"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.21.0"
