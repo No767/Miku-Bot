@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-buildx-alpine-hub
 
       - name: Build and push
-        uses: docker/build-push-action@v3.3.0
+        uses: docker/build-push-action@v4.0.0
         with:
           context: .
           file: ./Alpine-Docker/Dockerfile
@@ -107,7 +107,7 @@ jobs:
             ${{ runner.os }}-buildx-debian-hub-
 
       - name: Build and push
-        uses: docker/build-push-action@v3.3.0
+        uses: docker/build-push-action@v4.0.0
         with:
           context: .
           file: ./Debian-Docker/Dockerfile
